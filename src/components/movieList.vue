@@ -8,6 +8,7 @@
                 </v-col>
             </v-row>
             <v-pagination v-model="page" :length="3" color="#D81B60" circle  
+                @input="getAllMovies(page)"
                 @next="getAllMovies(page)"
                 @previous="getAllMovies(page)"
             ></v-pagination>    

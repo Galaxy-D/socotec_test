@@ -78,9 +78,10 @@ export default new Vuex.Store({
         console.error(err)
       });
     }, 
-    getAllReviews({commit}){
+    getAllReviewsByMovie({commit}, payload){
       reviewsApiHandler.fetchAllReviews().then((res)=>{
-        commit('SET_REVIEWS_LIST',res.data.results);
+        let ReviewsByMovie = res.data.results.filter(el => el.movie == payload);
+        commit('SET_REVIEWS_LIST',ReviewsByMovie);
       }).catch((err)=>{
         console.error(err)
       });

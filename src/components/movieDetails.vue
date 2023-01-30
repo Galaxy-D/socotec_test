@@ -12,7 +12,8 @@
               <v-col cols="12" sm="8" align="left">
                   <h1 class="grey--text text-darken-3 mt-5">{{movieDetails.title}}</h1>
                   <v-row>
-                    <v-rating :value="parseInt(movieDetails.avg_grade)" color="amber" dense half-increments hover readonly></v-rating>
+                    <v-rating :value="avrg_rating" color="amber" dense half-increments hover readonly></v-rating>
+                    <p>{{ avrg_rating }}</p>
                   </v-row>   
                   <v-row>  
                     <div>
@@ -84,13 +85,14 @@
             description:'',  
             rating: 0,
           },
+          avrg_rating: 0,
         }
       },
       computed: {
-        ...mapState(['movieDetails','actorByMovie'])
+        ...mapState(['movieDetails','actorByMovie','reviewsList'])
       },
       methods: {
-        ...mapActions(['getSingleMovie','getActorsByMovie','updateSingleMovie','addMovieReview']),     
+        ...mapActions(['getSingleMovie','getActorsByMovie','updateSingleMovie','addMovieReview', 'getAllReviewsByMovie']),     
         async handelSubmit(){
           let moviePayload = {
             id:this.$route.params.id, 
@@ -105,10 +107,20 @@
           await this.addMovieReview(reviewPayload);
           this.dialog = false;       
         },
+        reviewAvrg(){          
+          let gradeTab = [];
+          this.reviewsList.forEach((el)=>{
+            gradeTab.push(el.grade);
+          })
+          let avrg =  gradeTab.reduce((acc, curr) => acc + curr,0) / gradeTab.length;
+          return this.avrg_rating = avrg;
+        }
       },
       async mounted() {
         await this.getSingleMovie(this.$route.params.id);       
         await this.getActorsByMovie(this.movieDetails.actors);
+        await this.getAllReviewsByMovie(this.$route.params.id);
+        await this.reviewAvrg();
       }
     }
   </script>
