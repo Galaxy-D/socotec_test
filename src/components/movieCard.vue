@@ -13,7 +13,7 @@
                 <v-row align="center" class="mx-0">
                     <h4>Rating</h4>
                     <v-spacer></v-spacer>
-                    <v-rating :value="movie.avg_grade" readonly color="amber" dense half-increments hover>
+                    <v-rating :value="parseInt(movie.avg_grade)" readonly color="amber" dense half-increments hover>
                     </v-rating>
                 </v-row>
                 <v-row class="mx-0">
