@@ -15,7 +15,8 @@ export default new Vuex.Store({
     reviewsList: [],
     newMovieDetails: {},
     newActorDetails: {},
-    actorByMovie:[]
+    actorByMovie:[],
+    movieReview:''
   },
   getters: {
   },
@@ -43,6 +44,9 @@ export default new Vuex.Store({
     },
     UPDATE_ACTOR_DETAILS(state,newActorDetails){
       state.newActorDetails = newActorDetails;
+    },
+    ADD_MOVIE_REVIEW(state,movieReview){
+      state.movieReview = movieReview;
     }
   },
   actions: {
@@ -92,8 +96,7 @@ export default new Vuex.Store({
       moviesApiHandler.updateMovieDetails(
         payload.id,
         payload.title,
-        payload.description,
-        payload.avg_grade
+        payload.description
       ).then((res)=>{ 
         commit('UPDATE_MOVIE_DETAILS',res.data);        
       }).catch((err)=>{
@@ -107,6 +110,13 @@ export default new Vuex.Store({
         payload.last_name
       ).then((res)=>{ 
         commit('UPDATE_ACTOR_DETAILS',res.data);        
+      }).catch((err)=>{
+        console.error(err)
+      });
+    },
+    addMovieReview({commit},payload){
+      reviewsApiHandler.createMovieReview(payload.movie,payload.grade).then((res)=>{
+        commit('ADD_MOVIE_REVIEW',res.data);
       }).catch((err)=>{
         console.error(err)
       });

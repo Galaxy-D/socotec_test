@@ -1,5 +1,4 @@
 <template>
-
     <div>
       <v-container>
           <v-row>
@@ -13,12 +12,12 @@
               <v-col cols="12" sm="8" align="left">
                   <h1 class="grey--text text-darken-3 mt-5">{{movieDetails.title}}</h1>
                   <v-row>
-                    <v-rating :value="movieDetails.avg_grade" color="amber" dense half-increments hover></v-rating>
+                    <v-rating :value="parseInt(movieDetails.avg_grade)" color="amber" dense half-increments hover readonly></v-rating>
                   </v-row>   
                   <v-row>  
                     <div>
                       <h4 class="grey--text text-darken-3 mt-5">Actors</h4>
-                      <span v-for="actor in actorByMovie" :key="actor.id" class="ml-1">
+                      <span v-for="(actor, index) in actorByMovie" :key="actor.id" class="ml-1">
                         {{actor.first_name + ' ' + actor.last_name}}
                         <span v-if="(actorByMovie.length - 1 != index)">, </span>
                       </span>
@@ -64,21 +63,17 @@
                   </v-row>
               </v-col>
           </v-row>        
-          <v-divider class="mt-2"></v-divider>
-          <ReviewList/>
       </v-container>
     </div>
     
   </template>
   
   <script>
-    import ReviewList from '../components/reviewList';
     import { mapState, mapActions } from "vuex";
   
     export default {
       name: 'movieDetail',
       components: {
-        ReviewList,
       },
       data() {
         return {      
@@ -95,15 +90,19 @@
         ...mapState(['movieDetails','actorByMovie'])
       },
       methods: {
-        ...mapActions(['getSingleMovie','getActorsByMovie','updateSingleMovie']),     
+        ...mapActions(['getSingleMovie','getActorsByMovie','updateSingleMovie','addMovieReview']),     
         async handelSubmit(){
-          let payload = {
+          let moviePayload = {
             id:this.$route.params.id, 
             title:this.newDetails.title,
-            description:this.newDetails.description,
-            avg_grade: this.newDetails.rating
+            description:this.newDetails.description
           }
-          await this.updateSingleMovie(payload);  
+          let reviewPayload = {
+            movie:this.$route.params.id, 
+            grade:this.newDetails.rating,
+          }
+          await this.updateSingleMovie(moviePayload);  
+          await this.addMovieReview(reviewPayload);
           this.dialog = false;       
         },
       },

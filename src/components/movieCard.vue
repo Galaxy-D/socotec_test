@@ -9,15 +9,15 @@
             <v-card-title class="subtitle-2">{{movie.title}}</v-card-title>      
             </v-row>
 
-            <v-card-text align="left">
+            <v-card-text>
                 <v-row align="center" class="mx-0">
                     <h4>Rating</h4>
                     <v-spacer></v-spacer>
-                    <v-rating readonly color="amber" dense half-increments hover>
+                    <v-rating :value="parseInt(movie.avg_grade)" readonly color="amber" dense half-increments hover>
                     </v-rating>
                 </v-row>
-                <v-row align="left" class="mx-0">
-                    <div class="my-4 subtitle-2">
+                <v-row class="mx-0">
+                    <div class="my-4 subtitle-2"  align="left" >
                         <h4>Actors</h4>
                         <span v-for="(actor,index) in actorByMovie" :key="actor.id" class="ml-1">
                             {{actor.first_name + ' ' + actor.last_name}}
@@ -25,8 +25,8 @@
                         </span>
                     </div>
                 </v-row>
-                <v-row align="left" class="mx-0">
-                    <div>
+                <v-row class="mx-0">
+                    <div  align="left">
                         <h4>Description</h4>
                         <p>{{ movie.description }}</p>
                     </div>

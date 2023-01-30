@@ -12,11 +12,10 @@ export default {
     fetchSingleMovie(id){
         return movieApi.get(END_POINT+`/${id}`);
     },
-    updateMovieDetails(id, newTitle, newDescription, newRating){
+    updateMovieDetails(id, newTitle, newDescription){
         return movieApi.patch(END_POINT+`/${id}/`,{
             title:newTitle,
-            description:newDescription,
-            avg_grade: newRating
+            description:newDescription
         });
     },
 }
