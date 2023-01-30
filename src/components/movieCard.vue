@@ -19,7 +19,7 @@
                 <v-row align="left" class="mx-0">
                     <div class="my-4 subtitle-2">
                         <h4>Actors</h4>
-                        <span v-for="actor in actorByMovie" :key="actor.id" class="ml-1">
+                        <span v-for="(actor,index) in actorByMovie" :key="actor.id" class="ml-1">
                             {{actor.first_name + ' ' + actor.last_name}}
                         <span v-if="(actorByMovie.length - 1 != index)">, </span>
                         </span>
